@@ -9,7 +9,7 @@ router.get("/api/posts", (req, res) => {
       res.status(200).json({ users });
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: "error" });
+      res.status(500).json({ error: "The posts information could not be retrieved." });
     });
 });
 
