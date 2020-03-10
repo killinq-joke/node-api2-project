@@ -36,6 +36,19 @@ router.post("/api/posts/", (req, res) => {
     })
 })  
 
+router.post("/api/posts/:id/comments", (req, res) => {
+    const {id} = req.params;
+    const comment = req.body;
+    comment.post_id = id;
+    helpers.insertComment(comment)
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: "error" })
+    })
+})
+
 router.put("/api/posts/:id", (req, res) => {
     const {id} = req.params;
     const post = req.body;
