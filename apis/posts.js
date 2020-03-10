@@ -27,7 +27,7 @@ router.get("/api/posts/:id", (req, res) => {
 
 router.get("/api/posts/:id/comments", (req, res) => {
     const {id} = req.params;
-    
+
     helpers.findCommentById(id)
     .then(response => {
         res.status(200).json(response)
@@ -41,7 +41,7 @@ router.post("/api/posts/", (req, res) => {
     const post = req.body;
     helpers.insert(post)
     .then(response => {
-        res.status(200).json(response)
+        res.status(201).json(response)
     })
     .catch(err => {
         res.status(500).json({ errorMessage: "error" })
@@ -54,7 +54,7 @@ router.post("/api/posts/:id/comments", (req, res) => {
     comment.post_id = id;
     helpers.insertComment(comment)
     .then(response => {
-        res.status(200).json(response)
+        res.status(201).json(response)
     })
     .catch(err => {
         res.status(500).json({ errorMessage: "error" })
