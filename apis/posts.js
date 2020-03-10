@@ -62,10 +62,16 @@ router.post("/api/posts/:id/comments", (req, res) => {
   helpers
     .insertComment(comment)
     .then(response => {
-      res.status(201).json(response);
+        if(!response) {
+            res.status(404).json({ message: "The post with the specified ID does not exist." })
+        } else if (comment.hasOwnProperty("text")) {
+            res.status(201).json(comment);
+        } else {
+            res.status(400).json({ errorMessage: "Please provide text for the comment." })
+        }
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: "error" });
+      res.status(500).json({ error: "There was an error while saving the comment to the database" });
     });
 });
 
