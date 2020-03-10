@@ -38,7 +38,7 @@ router.get("/api/posts/:id/comments", (req, res) => {
     .findCommentById(id)
     .then(response => {
         if (!response) {
-            res.status(404).json({ error: "There was an error while saving the comment to the database" })
+            res.status(404).json({ message: "The post with the specified ID does not exist." })
         } else {
             res.status(200).json(response);
         }
@@ -92,8 +92,16 @@ router.put("/api/posts/:id", (req, res) => {
   helpers
     .update(id, post)
     .then(response => {
-      res.status(200).json(response);
-    })
+        if (!response) {
+            res.status(404).json({ message: "The post with the specified ID does not exist." })
+        } else if (post.hasOwnProperty("title") && post.hasOwnProperty("contents")) {
+               res.status(200).json(post);
+        } else {
+           res.status(400).json({ errorMessage: "Please provide title and contents for the post." })
+        }
+   
+    }) 
+    
     .catch(err => {
       res.status(500).json({ errorMessage: "error" });
     });
@@ -105,7 +113,11 @@ router.delete("/api/posts/:id", (req, res) => {
   helpers
     .remove(id)
     .then(response => {
-      res.status(200).json(response);
+        if (!response) {
+            res.status(404).json({ message: "The post with the specified ID does not exist." })
+        } else {
+            res.status(200).json(response);
+        }
     })
     .catch(err => {
       res.status(500).json({ errorMessage: "error" });
