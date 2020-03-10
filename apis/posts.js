@@ -49,4 +49,16 @@ router.put("/api/posts/:id", (req, res) => {
     })
 })
 
+router.delete("/api/posts/:id", (req, res) =>{
+    const {id} = req.params;
+
+    helpers.remove(id)
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: "error" })
+    })
+})
+
 module.exports = router
