@@ -26,14 +26,27 @@ router.get("/api/posts/:id", (req, res) => {
 })
 
 router.post("/api/posts/", (req, res) => {
-    const payload = req.body;
-    helpers.insert(payload)
-    .then(post => {
-        res.status(200).json(post)
+    const post = req.body;
+    helpers.insert(post)
+    .then(response => {
+        res.status(200).json(response)
     })
     .catch(err => {
         res.status(500).json({ errorMessage: "error" })
     })
 })  
+
+router.put("/api/posts/:id", (req, res) => {
+    const {id} = req.params;
+    const post = req.body;
+
+    helpers.update(id, post)
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: "error"})
+    })
+})
 
 module.exports = router
