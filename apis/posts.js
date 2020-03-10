@@ -37,10 +37,15 @@ router.get("/api/posts/:id/comments", (req, res) => {
   helpers
     .findCommentById(id)
     .then(response => {
-      res.status(200).json(response);
+        if (!response) {
+            res.status(404).json({ error: "There was an error while saving the comment to the database" })
+        } else {
+            res.status(200).json(response);
+        }
+      
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: "error" });
+      res.status(500).json({ error: "There was an error while saving the comment to the database" });
     });
 });
 
